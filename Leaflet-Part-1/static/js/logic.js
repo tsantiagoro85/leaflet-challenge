@@ -50,12 +50,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 
         // Create function to add color range depending on depth
         function getColor(depth) {
-            return depth > 500 ? "#AA00FF" :
-                   depth > 400  ? "#7F00FF" :
-                   depth > 300  ? "#5500FF" :
-                   depth > 200  ? "#2A00FF" :
-                   depth > 100   ? "#0055FF" :
-                              "#007FFF";
+            return depth > 500 ? "#355E3B" :
+                   depth > 400  ? "#228B22" :
+                   depth > 300  ? "#5F8575" :
+                   depth > 200  ? "#50C878" :
+                   depth > 100   ? "#7CFC00" :
+                              "#90EE90";
         }
         
         var EarthquakeSize = (Earthquake.properties.mag * 50000)*Math.cos((Earthquake.geometry.coordinates[1]/180)*Math.PI)
@@ -84,7 +84,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     info.onAdd = function() {
         var div = L.DomUtil.create('div', 'info legend');
         grades = [0, 100, 200, 300, 400, 500];
-        labels = ["#FEB24C","#FD8D3C","#FC4E2A","#E31A1C","#BD0026","#800026"];
+        labels = ["#355E3B","#228B22","#5F8575","#50C878","#7CFC00","#90EE90"];
   
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
