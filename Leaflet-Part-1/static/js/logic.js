@@ -1,14 +1,14 @@
-// Create the tile layer that will be the background of our map.
+// Create the tile layer
 var streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
 
-// Initialize all the LayerGroups that we'll use.
+// Initialize LayerGroups
 var layers = {
   Quakes: new L.LayerGroup()
 };
 
-// Create the map with our layers.
+// Create the map
 var map = L.map("map", {
   center: [0.000, 0.000],
   zoom: 2.5,
@@ -17,18 +17,18 @@ var map = L.map("map", {
   ]
 });
 
-// Add our "streetmap" tile layer to the map.
+// Add streetmap tile layer to the map
 streetmap.addTo(map);
 
-// Create an overlays object to add to the layer control.
+// Create  overlays object to add to the layer control
 var overlays = {
   "Earthquakes": layers.Quakes
 };
 
-// Create a control for our layers, and add our overlays to it.
+// Create a control for layers, and add overlays to it
 L.control.layers(null, overlays).addTo(map);
 
-// Perform an call to retrieve the earthquake data for the month in json format.
+// Perform call to retrieve the earthquake data for the month in json format
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(EarthquakeData) {
 
     console.log(EarthquakeData);
@@ -43,20 +43,19 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
 
         var depth = Earthquake.geometry.coordinates[2];
 
-
         // Anything deeper than 300, make a solid circle
         depthFill = depth/300 + .1;
 
         if (depthFill > 1) {depthFill = 1};
 
-        // https://leafletjs.com/examples/choropleth/
+        // Create function to add color range depending on depth
         function getColor(depth) {
-            return depth > 500 ? "#800026" :
-                   depth > 400  ? "#BD0026" :
-                   depth > 300  ? "#E31A1C" :
-                   depth > 200  ? "#FC4E2A" :
-                   depth > 100   ? "#FD8D3C" :
-                              "#FEB24C";
+            return depth > 500 ? "#AA00FF" :
+                   depth > 400  ? "#7F00FF" :
+                   depth > 300  ? "#5500FF" :
+                   depth > 200  ? "#2A00FF" :
+                   depth > 100   ? "#0055FF" :
+                              "#007FFF";
         }
         
         var EarthquakeSize = (Earthquake.properties.mag * 50000)*Math.cos((Earthquake.geometry.coordinates[1]/180)*Math.PI)
@@ -76,8 +75,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
                             "<br> Place: " + Earthquake.properties.place);
     };
 
-//https://leafletjs.com/examples/choropleth/
-     // Create a legend to display information about our map.
+    // Create a legend to display information about our map.
     var info = L.control({
         position: "bottomright"
     });
